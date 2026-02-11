@@ -1,0 +1,28 @@
+[
+  {
+    "file": "examples/l_strings.c",
+    "arguments": [
+      "gcc",
+      "-I",
+      "include",
+      "-o",
+      "examples/build/l_strings",
+      "examples/l_strings.c"
+    ],
+    "directory": "/Users/AndersT/PersonalProjects/c/cutils",
+    "output": "examples/build/l_strings"
+  },
+  {
+    "file": "examples/test.c",
+    "arguments": [
+      "gcc",
+      "-I",
+      "include",
+      "-o",
+      "examples/build/test",
+      "examples/test.c"
+    ],
+    "directory": "/Users/AndersT/PersonalProjects/c/cutils",
+    "output": "examples/build/test"
+  }
+]
