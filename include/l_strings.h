@@ -7,14 +7,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
-
-typedef int32_t     i32;
-typedef int64_t     i64;
-typedef uint32_t    u32;
-typedef uint64_t    u64;
-typedef uint32_t    b32;
-typedef uint64_t    b64;
-
+#include "types.h"
 
 // Length based strings
 

@@ -13,16 +13,16 @@
     "output": "examples/build/l_strings"
   },
   {
-    "file": "examples/test.c",
+    "file": "examples/mem_arena.c",
     "arguments": [
       "gcc",
       "-I",
       "include",
       "-o",
-      "examples/build/test",
-      "examples/test.c"
+      "examples/build/mem_arena",
+      "examples/mem_arena.c"
     ],
     "directory": "/Users/AndersT/PersonalProjects/c/cutils",
-    "output": "examples/build/test"
+    "output": "examples/build/mem_arena"
   }
 ]
