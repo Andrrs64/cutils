@@ -17,9 +17,9 @@ typedef struct {
     b32     null_terminated;
 } L_String;
 
-L_String    string_literal(char* str);
+L_String    string_from_cstring(char* str);
 void        string_destroy(L_String str);
-void        string_to_cstring(L_String str, char** out, u64 out_size);
+char*        string_to_cstring(L_String str);
 bool        string_equal(L_String a, L_String b);
 
 
@@ -69,7 +69,7 @@ L_String sb_copy_to_string(String_Builder* sb, b32 null_terminated);
 #include <stdio.h>
 #include <stdlib.h>
 
-L_String string_literal(char* str) {
+L_String string_from_cstring(char* str) {
     u64 length = 0;
     while (str[length] != '\0') length++;
     return (L_String){
@@ -83,20 +83,18 @@ void string_destroy(L_String str) {
     free(str.buf);
 }
 
-void string_to_cstring(L_String str, char** out, u64 out_size) {
+char* string_to_cstring(L_String str) {
+    u64     out_size    = (str.length + 1) * sizeof(char);
+    char*   out         = malloc(out_size);
+
     if (str.null_terminated) {
-        *out = str.buf;
+        snprintf(out, out_size, "%s", str.buf);
+        return out;
     }
-    bool terminated = false;
-    for (i32 i = 0; i < str.length; i++) {
-        if (i == out_size - 1) {
-            *out[i] = '\0';
-            terminated = true;
-            break;
-        }
-        *out[i] = str.buf[i];
-    }
-    if (!terminated) *out[str.length+1] = '\0';
+
+    memcpy(out, str.buf, str.length);
+    out[str.length] = '\0';
+    return out;
 }
 
 bool string_equal(L_String a, L_String b) {
@@ -156,28 +154,27 @@ void sb_write(String_Builder* sb, L_String str) {
 }
 
 void sb_write_cstring(String_Builder* sb, char* str) {
-    sb_write(sb, string_literal(str));
+    sb_write(sb, string_from_cstring(str));
 }
 
-#define MAX_NUM_STRLEN 64
 void sb_write_i32(String_Builder* sb, i32 val) {
-    char tmp[MAX_NUM_STRLEN];
-    int n = sprintf(tmp, "%d", val);
-    sb_write(sb, (L_String){ .buf = tmp, .length = (u64)n, .null_terminated = true });
-}
-void sb_write_i64(String_Builder* sb, i64 val) {
-    char tmp[MAX_NUM_STRLEN];
-    int n = sprintf(tmp, "%lld", val);
+    char tmp[12];
+    int n = snprintf(tmp, sizeof(tmp), "%d", val);
     sb_write(sb, (L_String){ .buf = tmp, .length = (u64)n, .null_terminated = true });
 }
 void sb_write_u32(String_Builder* sb, u32 val) {
-    char tmp[MAX_NUM_STRLEN];
-    int n = sprintf(tmp, "%u", val);
+    char tmp[11];
+    int n = snprintf(tmp, sizeof(tmp), "%u", val);
+    sb_write(sb, (L_String){ .buf = tmp, .length = (u64)n, .null_terminated = true });
+}
+void sb_write_i64(String_Builder* sb, i64 val) {
+    char tmp[21];
+    int n = snprintf(tmp, sizeof(tmp), "%lld", val);
     sb_write(sb, (L_String){ .buf = tmp, .length = (u64)n, .null_terminated = true });
 }
 void sb_write_u64(String_Builder* sb, u64 val) {
-    char tmp[MAX_NUM_STRLEN];
-    int n = sprintf(tmp, "%llu", val);
+    char tmp[21];
+    int n = snprintf(tmp, sizeof(tmp), "%llu", val);
     sb_write(sb, (L_String){ .buf = tmp, .length = (u64)n, .null_terminated = true });
 }
 
