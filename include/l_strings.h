@@ -61,25 +61,6 @@ L_String sb_to_string(String_Builder* sb);
  */
 L_String sb_copy_to_string(String_Builder* sb, b32 null_terminated);
 
-// String writer
-
-typedef struct {
-    char*   buf;
-    u64     capacity;
-    u64     length;
-    u64     cursor;
-} String_Writer;
-
-void        sw_init(String_Writer* sw);
-void        sw_init_capacity(String_Writer* sw, u64 init_cap);
-void        sw_destroy(String_Writer* sw);
-void        sw_write_char(String_Writer* sw, char c);
-void        sw_write_string(String_Writer* sw, L_String str);
-void        sw_delete(String_Writer* sw);
-void        sw_delete_len(String_Writer* sw, u64 len);
-void        sw_delete_to(String_Writer* sw, u64 pos);
-L_String    sw_to_string(String_Writer* sw);
-
 #endif // STRINGS_HEADER
 
 #ifdef STRINGS_IMPLEMENTATION
@@ -222,51 +203,6 @@ L_String sb_copy_to_string(String_Builder* sb, b32 null_terminated) {
 
     if (null_terminated) out.buf[buffer_size-1] = '\0';
     return out;
-}
-
-
-// Writer
-
-void sw_init(String_Writer* sw) {
-    sw_init_capacity(sw, 128);
-}
-
-void sw_init_capacity(String_Writer* sw, u64 init_cap) {
-    sw->buf = malloc(init_cap * sizeof(char));
-    if (sw->buf == NULL) {
-        printf("[ERROR]: Could not allocate memory for string writer");
-        abort();
-    }
-    sw->capacity    = init_cap;
-    sw->length      = 0;
-}
-
-void sw_destroy(String_Writer* sw) {
-
-}
-
-void sw_write_char(String_Writer* sw, char c) {
-
-}
-
-void sw_write_string(String_Writer* sw, L_String str) {
-
-}
-
-void sw_delete(String_Writer* sw) {
-
-}
-
-void sw_delete_len(String_Writer* sw, u64 len) {
-
-}
-
-void sw_delete_to(String_Writer* sw, u64 pos) {
-
-}
-
-L_String sw_to_string(String_Writer* sw) {
-    return (L_String){0};
 }
 
 #endif // STRINGS_IMPLEMENTATION
