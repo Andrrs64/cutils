@@ -2,11 +2,13 @@
 #define DONT_ABORT_ON_ARENA_FAILURE
 #include <stdbool.h>
 #include <stdio.h>
+#include <assert.h>
 #include "../mem_arena.h"
 
 int main() {
     Arena*  arena   = arena_alloc(KiB(10));
     u8*     buf_2K  = arena_push(arena, KiB(2), false); // 2 Kilobytes of uninitialized memory
+    assert(buf_2K != NULL);
 
     u8* buf_10B = arena_push(arena, 10, true); // 10 bytes of zero initialized memory
     printf("Should all be zero:");
@@ -17,6 +19,7 @@ int main() {
     // FAILS (1MiB > 1KiB)
     // calls abort() unless DONT_ABORT_ON_ARENA_FAILURE is defined, then it returns NULL
     u8* buf_1M  = arena_push(arena, MiB(1), false);
+    assert(buf_1M == NULL);
 
     arena_destroy(arena); // deallocates the arena
     return 0;

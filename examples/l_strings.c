@@ -6,7 +6,7 @@
 #include "../mem_arena.h"
 
 int main() {
-    Arena* arena        = arena_alloc(KiB(10));
+    Arena* arena        = arena_alloc(KiB(1));
     Allocator allocator = arena_get_allocator(arena);
 
     L_String str = string_from_cstring("String literal");
@@ -18,7 +18,6 @@ int main() {
     // this copies the string into a new buffer that will have to be freed
     char* cs = string_to_cstring(str, allocator);
     printf("%s\n", cs);
-    allocator.free(cs, allocator.ctx);
 
     L_String str2 = string_from_cstring("String literal");
     if (string_equal(str, str2)) {
@@ -29,7 +28,8 @@ int main() {
 
     // String builder
     String_Builder sb = {0};
-    sb_init(&sb, allocator);
+    // Initialize with a comfortable capacity to avoid reallocations
+    sb_init_capacity(&sb, 100, allocator);
 
     sb_write(&sb, string_from_cstring("You can write L_Strings, "), allocator);
     sb_write_cstring(&sb, "and you can write cstrings.", allocator);

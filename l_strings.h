@@ -122,7 +122,7 @@ void sb_init(String_Builder* sb, Allocator allocator) {
 }
 
 void sb_init_capacity(String_Builder* sb, u64 init_cap, Allocator allocator) {
-    sb->buf = allocator.alloc(init_cap * sizeof(L_String), false, allocator.ctx);
+    sb->buf = allocator.alloc(init_cap, false, allocator.ctx);
     if (sb->buf == NULL) {
         printf("[ERROR]: Could not allocate memory for string builder\n");
         abort();
@@ -163,22 +163,22 @@ void sb_write_cstring(String_Builder* sb, char* str, Allocator allocator) {
 
 void sb_write_i32(String_Builder* sb, i32 val, Allocator allocator) {
     char tmp[12];
-    int n = snprintf(tmp, sizeof(tmp), "%d", val);
+    int n = snprintf(tmp, sizeof(tmp), "%d", (int)val);
     sb_write(sb, (L_String){ .buf = tmp, .length = (u64)n, .null_terminated = true }, allocator);
 }
 void sb_write_u32(String_Builder* sb, u32 val, Allocator allocator) {
     char tmp[11];
-    int n = snprintf(tmp, sizeof(tmp), "%u", val);
+    int n = snprintf(tmp, sizeof(tmp), "%u", (unsigned int)val);
     sb_write(sb, (L_String){ .buf = tmp, .length = (u64)n, .null_terminated = true }, allocator);
 }
 void sb_write_i64(String_Builder* sb, i64 val, Allocator allocator) {
     char tmp[21];
-    int n = snprintf(tmp, sizeof(tmp), "%ld", val);
+    int n = snprintf(tmp, sizeof(tmp), "%lld", (unsigned long long)val);
     sb_write(sb, (L_String){ .buf = tmp, .length = (u64)n, .null_terminated = true }, allocator);
 }
 void sb_write_u64(String_Builder* sb, u64 val, Allocator allocator) {
     char tmp[21];
-    int n = snprintf(tmp, sizeof(tmp), "%lu", val);
+    int n = snprintf(tmp, sizeof(tmp), "%llu", (unsigned long long)val);
     sb_write(sb, (L_String){ .buf = tmp, .length = (u64)n, .null_terminated = true }, allocator);
 }
 

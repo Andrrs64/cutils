@@ -66,8 +66,10 @@ void* arena_push(Arena* arena, const u64 size, b32 zero_init) {
             cap_val /= 1024;
             unit_idx++;
         }
-        printf("[ERROR]: Arena allocations exceeded capacity of %lu%s\n",
-                cap_val, units[unit_idx]);
+
+        printf("[ERROR]: Arena allocations exceeded capacity of %llu%s\n",
+                (unsigned long long)cap_val, units[unit_idx]);
+
 #ifdef DONT_ABORT_ON_ARENA_FAILURE
         printf(">   Returning NULL\n");
         return NULL;
@@ -120,6 +122,7 @@ Allocator arena_get_allocator(Arena* arena) {
     Allocator a;
     a.alloc = _arena_allocator_alloc;
     a.free  = _arena_allocator_free;
+    a.ctx   = arena;
     return a;
 }
 
