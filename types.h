@@ -18,4 +18,11 @@ typedef u32         b32;
 #define MiB(n) ((u64)(n) << 20)
 #define GiB(n) ((u64)(n) << 30)
 
+typedef struct {
+    void*   (*alloc)(u64 size, b32 zero_init, void* ctx);
+    void*   (*realloc)(void* ptr, u64 old_size, u64 new_size, void* ctx);
+    void    (*free)(void* ptr, void* ctx);
+    void*   ctx;
+} Allocator;
+
 #endif // TYPES_HEADER

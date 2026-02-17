@@ -14,6 +14,8 @@ void    arena_pop(Arena* arena, const u64 size);
 void    arena_pop_to(Arena* arena, const u64 pos);
 void    arena_clear(Arena* arena);
 
+Allocator   arena_get_allocator(Arena* arena);
+
 #endif // MEM_ARENA_HEADER
 
 #ifdef CUTILS_IMPLEMENTATION
@@ -64,7 +66,7 @@ void* arena_push(Arena* arena, const u64 size, b32 zero_init) {
             cap_val /= 1024;
             unit_idx++;
         }
-        printf("[ERROR]: Arena allocations exceeded capacity of %llu%s\n",
+        printf("[ERROR]: Arena allocations exceeded capacity of %lu%s\n",
                 cap_val, units[unit_idx]);
 #ifdef DONT_ABORT_ON_ARENA_FAILURE
         printf(">   Returning NULL\n");
@@ -94,6 +96,31 @@ void arena_pop_to(Arena* arena, const u64 pos) {
 
 void arena_clear(Arena* arena) {
     arena->pos = sizeof(Arena);
+}
+
+
+// Arena allocator functions
+
+void* _arena_allocator_alloc(u64 size, b32 zero_init, void* ctx) {
+    return arena_push((Arena*)ctx, size, zero_init);
+}
+
+void* _arena_allocator_realloc(void* ptr, u64 old_size, u64 new_size, void* ctx) {
+    Arena* arena = (Arena*)ctx;
+    void* out = arena_push(arena, new_size, false);
+    memcpy(out, ptr, old_size);
+    return out;
+}
+
+void _arena_allocator_free(void* ptr, void* ctx) {
+    return;
+}
+
+Allocator arena_get_allocator(Arena* arena) {
+    Allocator a;
+    a.alloc = _arena_allocator_alloc;
+    a.free  = _arena_allocator_free;
+    return a;
 }
 
 #endif // MEM_ARENA_IMPLEMENTATION

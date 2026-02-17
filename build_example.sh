@@ -5,4 +5,4 @@ if [[ -z "$1" ]]; then
     exit 1
 fi
 
-gcc -o examples/build/$1 examples/$1.c ${@:2}
+gcc -o examples/build/$1 examples/$1.c -Werror -Wall ${@:2}
