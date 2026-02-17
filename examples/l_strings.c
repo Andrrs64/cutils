@@ -1,8 +1,7 @@
 #define STRINGS_IMPLEMENTATION
-#include <l_strings.h>
-#include <types.h>
 #include <assert.h>
 #include <stdio.h>
+#include "../l_strings.h"
 
 int main() {
     L_String str = string_from_cstring("String literal");

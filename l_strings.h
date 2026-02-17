@@ -63,7 +63,11 @@ L_String sb_copy_to_string(String_Builder* sb, b32 null_terminated);
 
 #endif // STRINGS_HEADER
 
-#ifdef STRINGS_IMPLEMENTATION
+#ifdef CUTILS_IMPLEMENTATION
+#define L_STRINGS_IMPLEMENTATION
+#endif
+
+#ifdef L_STRINGS_IMPLEMENTATION
 
 #include <string.h>
 #include <stdio.h>
@@ -202,4 +206,4 @@ L_String sb_copy_to_string(String_Builder* sb, b32 null_terminated) {
     return out;
 }
 
-#endif // STRINGS_IMPLEMENTATION
+#endif // L_STRINGS_IMPLEMENTATION

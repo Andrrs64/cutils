@@ -1,8 +1,8 @@
 #define MEM_ARENA_IMPLEMENTATION
 #define DONT_ABORT_ON_ARENA_FAILURE
-#include <mem_arena.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include "../mem_arena.h"
 
 int main() {
     Arena*  arena   = arena_alloc(KiB(10));
