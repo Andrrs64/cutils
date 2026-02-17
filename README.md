@@ -13,12 +13,7 @@ These are the only libraries so far, but I will be adding more as I see them fit
 - macros.h: A few macros that might be of use, pretty similar to types.h in motive.
 - l_strings.h: Length based strings with utilities like a string builder
 - mem_arena.h: A dead simple memory arena allocator implementation
-
-## TODO
-
-- Add a general allocator type, and integrate it in all the libraries so you can choose how they
-    allocate memory
-    - This should really have been first priority when making this, but it went over my head
+- default_allocator.h: A simple malloc and free based allocator if you don't want to use arenas
 
 ## Usage
 
