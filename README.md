@@ -1,7 +1,7 @@
 # CUTILS
 
 A collection of STB-style header only libraries for general purpose programming in C. If you're
-interested in using it, there are other options that have more features, and are better tested, I
+interested in using it, there are other options that have more features and are better tested, I
 just wanted to make my own in order to have full control over how they work, and for learning
 purposes.
 
