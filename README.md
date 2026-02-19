@@ -44,12 +44,12 @@ they don't it's very simple to compile them manually.
 
 The examples can be built individually using build_example.sh:
 ```bash
-./build_example.sh l_strings
+scripts/build_example.sh l_strings
 ```
 
 or all at once with build_all_examples.sh:
 ```bash
-./build_all_examples.sh
+scripts/build_all_examples.sh
 ```
 
 Example of compiling it manually with clang:
